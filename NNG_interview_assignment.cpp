@@ -10,14 +10,13 @@
 
 #include "file_loader.h"
 
-static void findOverlappingAdresses(std::vector<MapInfo>& mapData) {
-	std::vector<std::tuple<std::string, int, int>> ret;
-	if (mapData.size() < 2)
+static void findOverlappingAdresses(std::vector<MapInfo>& map_infos) {
+	if (map_infos.size() < 2)
 	{
 		return;
 	}
 
-	std::sort(mapData.begin(), mapData.end(), [](const MapInfo& lhs, const MapInfo& rhs)
+	std::sort(map_infos.begin(), map_infos.end(), [](const MapInfo& lhs, const MapInfo& rhs)
 		{
 			return std::tie(lhs.order9Name, lhs.street_Name, lhs.street_Type, lhs.from) <
 				std::tie(rhs.order9Name, rhs.street_Name, rhs.street_Type, rhs.from);
@@ -25,34 +24,34 @@ static void findOverlappingAdresses(std::vector<MapInfo>& mapData) {
 
 	int interval[2] = { 0,0 };
 
-	for (size_t i = 0; i < mapData.size() - 1; i++)
+	for (size_t i = 0; i < map_infos.size() - 1; i++)
 	{
-		if (!mapData[i].isSameStreet(mapData[i + 1]))
+		if (!map_infos[i].isSameStreet(map_infos[i + 1]))
 		{
 			if (interval[0] != 0)
 			{
-				std::cout << mapData[i].street_Name << " " << mapData[i].street_Type << " " << mapData[i].scheme << " " << interval[0] << "-" << interval[1] << std::endl;
+				std::cout << map_infos[i].street_Name << " " << map_infos[i].street_Type << " " << map_infos[i].scheme << " " << interval[0] << "-" << interval[1] << std::endl;
 				interval[0] = 0;
 				interval[1] = 0;
 			}
 			continue;
 		}
 
-		if (mapData[i].to >= mapData[i + 1].from)
+		if (map_infos[i].to >= map_infos[i + 1].from)
 		{
 
-			int overlapStart = mapData[i + 1].from;
-			int overlapEnd = std::min(mapData[i].to, mapData[i + 1].to);
+			int overlap_start = map_infos[i + 1].from;
+			int overlap_end = std::min(map_infos[i].to, map_infos[i + 1].to);
 
 			if (interval[0] == 0)
 			{
-				interval[0] = overlapStart;
-				interval[1] = overlapEnd;
+				interval[0] = overlap_start;
+				interval[1] = overlap_end;
 			}
-			else if (overlapStart <= interval[1])
+			else if (overlap_start <= interval[1])
 			{
-				interval[0] = std::min(interval[0], overlapStart);
-				interval[1] = std::max(interval[1], overlapEnd);
+				interval[0] = std::min(interval[0], overlap_start);
+				interval[1] = std::max(interval[1], overlap_end);
 			}
 		}
 	}
@@ -60,14 +59,14 @@ static void findOverlappingAdresses(std::vector<MapInfo>& mapData) {
 
 int main(int argc, char* argv[])
 {
-	char const* filePath = argv[argc - 1];
-	std::vector<MapInfo> oddNos;
-	std::vector<MapInfo> evenNos;
-	std::vector<MapInfo> mixedNos;
+	char const* file_path = argv[argc - 1];
+	std::vector<MapInfo> odd_nos;
+	std::vector<MapInfo> even_nos;
+	std::vector<MapInfo> mixed_nos;
 
-	loadFile(filePath, oddNos, evenNos, mixedNos);
+	loadFile(file_path, odd_nos, even_nos, mixed_nos);
 
-	findOverlappingAdresses(oddNos);
-	findOverlappingAdresses(evenNos);
-	findOverlappingAdresses(mixedNos);
+	findOverlappingAdresses(odd_nos);
+	findOverlappingAdresses(even_nos);
+	findOverlappingAdresses(mixed_nos);
 }
