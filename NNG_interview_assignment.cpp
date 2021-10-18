@@ -10,38 +10,38 @@
 
 #include "file_loader.h"
 
-static void findOverlappingAdresses(std::vector<MapInfo>& map_infos) {
-	if (map_infos.size() < 2)
+void findOverlappingAdresses(std::vector<MapInfo>& map_info) {
+	if (map_info.size() < 2)
 	{
 		return;
 	}
 
-	std::sort(map_infos.begin(), map_infos.end(), [](const MapInfo& lhs, const MapInfo& rhs)
+	std::sort(map_info.begin(), map_info.end(), [](const MapInfo& lhs, const MapInfo& rhs)
 		{
-			return std::tie(lhs.order9Name, lhs.street_Name, lhs.street_Type, lhs.from) <
-				std::tie(rhs.order9Name, rhs.street_Name, rhs.street_Type, rhs.from);
+			return std::tie(lhs.order8_name, lhs.order9_name, lhs.street_name, lhs.street_type, lhs.from) <
+				std::tie(lhs.order8_name, rhs.order9_name, rhs.street_name, rhs.street_type, rhs.from);
 		});
 
 	int interval[2] = { 0,0 };
 
-	for (size_t i = 0; i < map_infos.size() - 1; i++)
+	for (auto i = 0; i < map_info.size() - 1; ++i)
 	{
-		if (!map_infos[i].isSameStreet(map_infos[i + 1]))
+		if (!map_info[i].isSameStreet(map_info[i + 1]))
 		{
 			if (interval[0] != 0)
 			{
-				std::cout << map_infos[i].street_Name << " " << map_infos[i].street_Type << " " << map_infos[i].scheme << " " << interval[0] << "-" << interval[1] << std::endl;
+				std::cout << map_info[i].street_name << " " << map_info[i].street_type << " " << map_info[i].scheme << " " << interval[0] << "-" << interval[1] << std::endl;
 				interval[0] = 0;
 				interval[1] = 0;
 			}
 			continue;
 		}
 
-		if (map_infos[i].to >= map_infos[i + 1].from)
+		if (map_info[i].to >= map_info[i + 1].from)
 		{
 
-			int overlap_start = map_infos[i + 1].from;
-			int overlap_end = std::min(map_infos[i].to, map_infos[i + 1].to);
+			int overlap_start = map_info[i + 1].from;
+			int overlap_end = std::min(map_info[i].to, map_info[i + 1].to);
 
 			if (interval[0] == 0)
 			{
