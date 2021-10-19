@@ -1,8 +1,8 @@
 ﻿// NNG_interview_assignment.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include <algorithm>  // for std::find
-#include <iostream>   // for std::cout
+#include <algorithm>  
+#include <iostream>   
 #include <string>
 #include <vector>
 
@@ -11,7 +11,7 @@
 #include "file_loader.h"
 
 void writeToOutputAndResetInterval(const MapInfo& map_info, int interval[2]) {
-	std::cout << map_info.street_name << " " << map_info.street_type << " " << map_info.scheme << " " << interval[0] << "-" << interval[1] << std::endl;
+	std::cout << map_info.street_name << ": " << map_info.street_type << " " << map_info.scheme << " " << interval[0] << "-" << interval[1] << std::endl;
 	interval[0] = 0;
 	interval[1] = 0;
 }
@@ -60,7 +60,7 @@ void findOverlappingAdresses(std::vector<MapInfo>& map_info) {
 
 	int interval[2] = { 0,0 };
 	int max_interval_to = 0;
-
+	
 	for (auto i = 0; i < map_info.size() - 1; ++i)
 	{
 		if (!map_info[i].isSameStreet(map_info[i + 1]))
