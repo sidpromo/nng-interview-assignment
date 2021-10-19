@@ -28,8 +28,8 @@ struct MapInfo {
 		order8_name(order8_name), order9_name(order9_name)
 	{}
 
-	bool isSameStreet(const MapInfo& rhs) {
-		return street_name == rhs.street_name && street_type == rhs.street_type && order8_name == rhs.order8_name;
+	bool isSameStreet(const MapInfo& rhs) const{
+		return street_name == rhs.street_name && street_type == rhs.street_type && order8_name == rhs.order8_name && order9_name == rhs.order9_name;
 	};
 };
 
