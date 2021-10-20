@@ -11,7 +11,7 @@
 #include "file_loader.h"
 
 void writeToOutputAndResetInterval(const MapInfo& map_info, int interval[2]) {
-	std::cout << map_info.street_name << ": " << map_info.street_type << " " << map_info.scheme << " " << interval[0] << "-" << interval[1] << std::endl;
+	std::cout << map_info.street_name << " " << map_info.street_type << ": " << map_info.scheme << " " << interval[0] << "-" << interval[1] << std::endl;
 	interval[0] = 0;
 	interval[1] = 0;
 }
