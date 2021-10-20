@@ -11,6 +11,10 @@
 #include "file_loader.h"
 
 void writeToOutputAndResetInterval(const MapInfo& map_info, int interval[2]) {
+	if (map_info.street_name.empty())
+	{
+		return;
+	}
 	std::cout << map_info.street_name << " " << map_info.street_type << ": " << map_info.scheme << " " << interval[0] << "-" << interval[1] << std::endl;
 	interval[0] = 0;
 	interval[1] = 0;
@@ -108,6 +112,7 @@ void findOverlappingAdresses(std::vector<MapInfo>& map_info) {
 	}
 }
 
+// Input file path must be given as a command line argument
 int main(int argc, char* argv[])
 {
 	char const* file_path = argv[argc - 1];
